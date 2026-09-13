@@ -1,37 +1,65 @@
 @import "tailwindcss";
 
 /*
- * Tokens do labka — identidade "Lab PRO": sidebar em vinho profundo,
- * conteúdo em creme quente, um único acento dourado usado com
- * moderação. Ver DESIGN.md para as regras de uso.
+ * Tokens em duas camadas — ver DESIGN.md.
+ *
+ * 1) Plataforma (Lab.Ka): tema padrão abaixo. Usado em login, favicon e
+ *    qualquer tela de admin fora de uma conta. Pedra/carvão neutro +
+ *    gradiente metálico dourado/verde-petróleo com moderação.
+ * 2) Conta: dentro da área logada da nutricionista, `--color-accent*` e
+ *   `--color-ground`/`--color-surface` são sobrescritos inline (ver
+ *   `src/app/(app)/layout.js`) com `cor_destaque`/`cor_fundo` da conta.
+ *   Sidebar (`--color-sidebar*`) fica fixo na paleta da plataforma pra
+ *   todas as contas.
  */
 :root {
-  --color-sidebar: #3a1420;
-  --color-sidebar-ink: #f3e9dd;
-  --color-sidebar-dim: #c9a9a9;
-  --color-sidebar-line: #55232f;
-  --color-sidebar-active: #4d1c29;
+  --color-sidebar: #2b2927;
+  --color-sidebar-ink: #ece7e2;
+  --color-sidebar-dim: #a89f98;
+  --color-sidebar-line: #423e3a;
+  --color-sidebar-active: #3a3632;
 
-  --color-ground: #f8f2e7;
-  --color-surface: #fffdf9;
-  --color-ink: #2a201c;
-  --color-dim: #7a6f63;
-  --color-line: #e8ddc9;
-  --color-line-strong: #d8c9ac;
+  --color-ground: #2b2927;
+  --color-surface: #8c8280;
+  --color-ink: #f3efe9;
+  --color-dim: #c9c2bc;
+  --color-line: #423e3a;
+  --color-line-strong: #55504b;
 
-  --color-accent: #b8862f;
-  --color-accent-light: #cc9a42;
-  --color-accent-veil: #f3e6d0;
+  --color-accent: #d4af37;
+  --color-accent-light: #e0c364;
+  --color-accent-veil: #46402f;
 
-  --color-good: #2f6d47;
-  --color-good-veil: #e7efe2;
-  --color-warn: #a86a1f;
-  --color-warn-veil: #f3e9d6;
-  --color-bad: #9c3b34;
-  --color-bad-veil: #f2e3de;
+  --color-good: #4a9d6f;
+  --color-good-veil: #2b332e;
+  --color-warn: #d1943f;
+  --color-warn-veil: #34302a;
+  --color-bad: #c96257;
+  --color-bad-veil: #362a28;
 
   --radius-control: 0.375rem;
   --radius-card: 0.5rem;
+
+  /* Gradiente metálico — só ícone/monograma e destaques pontuais,
+     nunca fundo nem botão inteiro (ver DESIGN.md). 4 stops, 135deg:
+     sombra → base → brilho → sombra, simulando reflexo em metal. */
+  --gradient-gold: linear-gradient(
+    135deg,
+    #8a6a1f 0%,
+    #d4af37 35%,
+    #f7e28c 60%,
+    #b8860b 100%
+  );
+  --gradient-teal: linear-gradient(
+    135deg,
+    #0d3d36 0%,
+    #1f5c52 35%,
+    #4fd1c5 60%,
+    #144840 100%
+  );
+
+  --shadow-glow-gold: 0 0 12px rgba(212, 175, 55, 0.25);
+  --shadow-glow-teal: 0 0 12px rgba(79, 209, 197, 0.25);
 }
 
 @theme inline {

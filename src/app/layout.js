@@ -13,7 +13,7 @@ const fraunces = Fraunces({
 });
 
 export const metadata = {
-  title: "labka",
+  title: "Lab.Ka",
   description: "Painel clínico — diagnóstico laboratorial e evolução de pacientes",
 };
 

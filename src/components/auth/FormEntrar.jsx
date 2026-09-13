@@ -81,7 +81,13 @@ export default function FormEntrar() {
         onChange={(e) => setSenha(e.target.value)}
       />
 
-      <Button type="submit" size="lg" fullWidth loading={enviando}>
+      <Button
+        type="submit"
+        size="lg"
+        fullWidth
+        loading={enviando}
+        className="transition-shadow hover:shadow-[var(--shadow-glow-gold)]"
+      >
         {enviando ? "Entrando" : "Entrar"}
       </Button>
     </form>

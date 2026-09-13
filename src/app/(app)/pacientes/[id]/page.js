@@ -1,15 +1,15 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { buscarPaciente } from "@/lib/pacientesRepository";
-import { listarExamesDoPaciente } from "@/lib/examesRepository";
-import { listarMarcadores } from "@/lib/marcadoresRepository";
-import { calcularScore } from "@/lib/score";
-import Button from "@/components/ui/Button";
-import Alert from "@/components/ui/Alert";
-import ScoreGeral from "@/components/painel/ScoreGeral";
-import GraficoEvolucao from "@/components/painel/GraficoEvolucao";
-import MatrizMarcadores from "@/components/exames/MatrizMarcadores";
-import SugestaoConduta from "@/components/painel/SugestaoConduta";
+import { buscarPaciente } from "../../../../lib/pacientesRepository";
+import { listarExamesDoPaciente } from "../../../../lib/examesRepository";
+import { listarMarcadores } from "../../../../lib/marcadoresRepository";
+import { calcularScore } from "../../../../lib/score";
+import Button from "../../../../components/ui/Button";
+import Alert from "../../../../components/ui/Alert";
+import ScoreGeral from "../../../../components/painel/ScoreGeral";
+import GraficoEvolucao from "../../../../components/painel/GraficoEvolucao";
+import MatrizMarcadores from "../../../../components/exames/MatrizMarcadores";
+import SugestaoConduta from "../../../../components/painel/SugestaoConduta";
 
 function idade(dataNascimento) {
   const nascimento = new Date(dataNascimento);
@@ -22,7 +22,7 @@ function idade(dataNascimento) {
   return anos;
 }
 
-export const metadata = { title: "Painel do paciente — labka" };
+export const metadata = { title: "Painel do paciente — Lab.Ka" };
 
 export default async function PainelPacientePage({ params }) {
   const { id } = await params;

@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { listarPacientes } from "@/lib/pacientesRepository";
-import ListaPacientes from "@/components/pacientes/ListaPacientes";
-import Button from "@/components/ui/Button";
-import Alert from "@/components/ui/Alert";
+import { listarPacientes } from "../../../lib/pacientesRepository";
+import ListaPacientes from "../../../components/pacientes/ListaPacientes";
+import Button from "../../../components/ui/Button";
+import Alert from "../../../components/ui/Alert";
 
-export const metadata = { title: "Pacientes — labka" };
+export const metadata = { title: "Pacientes — Lab.Ka" };
 
 export default async function PacientesPage() {
   const { ok, resultado, erro } = await listarPacientes();

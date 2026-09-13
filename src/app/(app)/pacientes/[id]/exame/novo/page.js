@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation";
-import { buscarPaciente } from "@/lib/pacientesRepository";
-import { listarCategoriasComMarcadores } from "@/lib/marcadoresRepository";
-import FormExame from "@/components/exames/FormExame";
+import { buscarPaciente } from "../../../../../../lib/pacientesRepository";
+import { listarCategoriasComMarcadores } from "../../../../../../lib/marcadoresRepository";
+import FormExame from "../../../../../../components/exames/FormExame";
 
-export const metadata = { title: "Novo exame — labka" };
+export const metadata = { title: "Novo exame — Lab.Ka" };
 
 export default async function NovoExamePage({ params }) {
   const { id } = await params;

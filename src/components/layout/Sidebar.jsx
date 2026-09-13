@@ -4,8 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Users, SignOut } from "@phosphor-icons/react";
-import { criarClienteNavegador } from "@/lib/supabase/client";
-import { cn } from "@/lib/cn";
+import { criarClienteNavegador } from "../../lib/supabase/client";
+import { cn } from "../../lib/cn";
 
 const NAV = [{ href: "/pacientes", label: "Pacientes", Icon: Users }];
 
@@ -25,7 +25,12 @@ export default function Sidebar({ email }) {
   return (
     <aside className="w-60 shrink-0 bg-sidebar text-sidebar-ink flex flex-col">
       <div className="px-6 py-7 border-b border-sidebar-line">
-        <span className="font-serif text-xl font-medium">labka</span>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/logo%20nome%20sem%20fundo.png"
+          alt="Laboratório Ká"
+          className="h-10 w-auto object-contain"
+        />
       </div>
 
       <nav className="flex-1 px-3 py-5 flex flex-col gap-1">

@@ -1,6 +1,6 @@
-import FormPaciente from "@/components/pacientes/FormPaciente";
+import FormPaciente from "../../../../components/pacientes/FormPaciente";
 
-export const metadata = { title: "Novo paciente — labka" };
+export const metadata = { title: "Novo paciente — Lab.Ka" };
 
 export default function NovoPacientePage() {
   return (
