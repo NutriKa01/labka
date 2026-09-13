@@ -1,34 +1,46 @@
 @import "tailwindcss";
 
 /*
- * Tokens do labka. Paleta neutra própria (clínica, não o dourado do
- * caixa-preta): fundo quase-branco, tinta grafite, um accent azul-petróleo
- * usado com moderação para ação primária e estados positivos/negativos
- * em verde/âmbar/vermelho de baixa saturação.
+ * Tokens do labka — identidade "Lab PRO": sidebar em vinho profundo,
+ * conteúdo em creme quente, um único acento dourado usado com
+ * moderação. Ver DESIGN.md para as regras de uso.
  */
 :root {
-  --color-ground: #f7f7f5;
-  --color-surface: #ffffff;
-  --color-ink: #1c1e1d;
-  --color-dim: #63665f;
-  --color-line: #e4e3de;
-  --color-line-strong: #c9c8c1;
+  --color-sidebar: #3a1420;
+  --color-sidebar-ink: #f3e9dd;
+  --color-sidebar-dim: #c9a9a9;
+  --color-sidebar-line: #55232f;
+  --color-sidebar-active: #4d1c29;
 
-  --color-accent: #1f5f5b;
-  --color-accent-light: #2c7d78;
+  --color-ground: #f8f2e7;
+  --color-surface: #fffdf9;
+  --color-ink: #2a201c;
+  --color-dim: #7a6f63;
+  --color-line: #e8ddc9;
+  --color-line-strong: #d8c9ac;
 
-  --color-good: #2f7d4f;
-  --color-good-veil: #e6f2ea;
+  --color-accent: #b8862f;
+  --color-accent-light: #cc9a42;
+  --color-accent-veil: #f3e6d0;
+
+  --color-good: #2f6d47;
+  --color-good-veil: #e7efe2;
   --color-warn: #a86a1f;
-  --color-warn-veil: #f6ecdd;
-  --color-bad: #a63b3b;
-  --color-bad-veil: #f6e6e6;
+  --color-warn-veil: #f3e9d6;
+  --color-bad: #9c3b34;
+  --color-bad-veil: #f2e3de;
 
-  --radius-control: 0.5rem;
-  --radius-card: 0.75rem;
+  --radius-control: 0.375rem;
+  --radius-card: 0.5rem;
 }
 
 @theme inline {
+  --color-sidebar: var(--color-sidebar);
+  --color-sidebar-ink: var(--color-sidebar-ink);
+  --color-sidebar-dim: var(--color-sidebar-dim);
+  --color-sidebar-line: var(--color-sidebar-line);
+  --color-sidebar-active: var(--color-sidebar-active);
+
   --color-ground: var(--color-ground);
   --color-surface: var(--color-surface);
   --color-ink: var(--color-ink);
@@ -37,6 +49,7 @@
   --color-line-strong: var(--color-line-strong);
   --color-accent: var(--color-accent);
   --color-accent-light: var(--color-accent-light);
+  --color-accent-veil: var(--color-accent-veil);
   --color-good: var(--color-good);
   --color-good-veil: var(--color-good-veil);
   --color-warn: var(--color-warn);
@@ -45,11 +58,15 @@
   --color-bad-veil: var(--color-bad-veil);
   --radius-control: var(--radius-control);
   --radius-card: var(--radius-card);
+
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-display), Georgia, serif;
 }
 
 body {
   background: var(--color-ground);
   color: var(--color-ink);
+  font-family: var(--font-sans);
 }
 
 .link {

@@ -8,7 +8,7 @@ export default function EntrarPage() {
     <div className="min-h-screen flex items-center justify-center bg-ground px-4">
       <div className="w-full max-w-sm flex flex-col gap-8">
         <div className="flex flex-col gap-2">
-          <h1 className="text-2xl font-semibold text-ink">labka</h1>
+          <h1 className="font-serif text-2xl font-medium text-ink">labka</h1>
           <p className="text-sm text-dim">
             Painel clínico. Entre com sua conta.
           </p>

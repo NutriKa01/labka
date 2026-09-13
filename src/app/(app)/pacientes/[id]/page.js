@@ -1,15 +1,15 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { buscarPaciente } from "../../../lib/pacientesRepository";
-import { listarExamesDoPaciente } from "../../../lib/examesRepository";
-import { listarMarcadores } from "../../../lib/marcadoresRepository";
-import { calcularScore } from "../../../lib/score";
-import Button from "../../../components/ui/Button";
-import Alert from "../../../components/ui/Alert";
-import ScoreGeral from "../../../components/painel/ScoreGeral";
-import GraficoEvolucao from "../../../components/painel/GraficoEvolucao";
-import MatrizMarcadores from "../../../components/exames/MatrizMarcadores";
-import SugestaoConduta from "../../../components/painel/SugestaoConduta";
+import { buscarPaciente } from "@/lib/pacientesRepository";
+import { listarExamesDoPaciente } from "@/lib/examesRepository";
+import { listarMarcadores } from "@/lib/marcadoresRepository";
+import { calcularScore } from "@/lib/score";
+import Button from "@/components/ui/Button";
+import Alert from "@/components/ui/Alert";
+import ScoreGeral from "@/components/painel/ScoreGeral";
+import GraficoEvolucao from "@/components/painel/GraficoEvolucao";
+import MatrizMarcadores from "@/components/exames/MatrizMarcadores";
+import SugestaoConduta from "@/components/painel/SugestaoConduta";
 
 function idade(dataNascimento) {
   const nascimento = new Date(dataNascimento);
@@ -65,7 +65,7 @@ export default async function PainelPacientePage({ params }) {
     <div className="max-w-3xl mx-auto w-full px-4 py-10 flex flex-col gap-6">
       <div className="flex items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold text-ink">{paciente.nome}</h1>
+          <h1 className="font-serif text-2xl font-semibold text-ink">{paciente.nome}</h1>
           <p className="text-sm text-dim mt-1">
             {idade(paciente.data_nascimento)} anos · {paciente.sexo}
             {paciente.telefone ? ` · ${paciente.telefone}` : ""}

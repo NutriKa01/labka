@@ -81,7 +81,7 @@ export default function FormPaciente() {
               className={
                 "h-11 px-4 rounded-[var(--radius-control)] border text-sm font-medium transition-colors " +
                 (sexo === s.valor
-                  ? "border-accent text-accent bg-good-veil"
+                  ? "border-accent text-accent bg-accent-veil"
                   : "border-line text-dim hover:border-line-strong")
               }
             >

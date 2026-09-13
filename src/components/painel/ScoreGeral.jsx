@@ -13,7 +13,7 @@ export default function ScoreGeral({ score }) {
   return (
     <Card className="flex flex-col gap-1">
       <CardLabel>Score geral</CardLabel>
-      <p className={`text-4xl font-semibold ${cor}`}>
+      <p className={`font-serif text-4xl font-semibold ${cor}`}>
         {score == null ? "—" : `${score}%`}
       </p>
       <p className="text-xs text-dim capitalize">{rotulo}</p>
