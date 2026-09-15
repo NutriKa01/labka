@@ -16,7 +16,7 @@ export const lerPerfilComConta = cache(async function lerPerfilComConta() {
   const { data, error } = await supabase
     .from("perfis")
     .select(
-      "role, conta_id, contas ( nome_consultorio, logo_url, cor_destaque, cor_fundo )"
+      "role, conta_id, contas ( nome_consultorio, logo_url, cor_destaque, cor_fundo, nome_profissional, crn, cidade )"
     )
     .eq("user_id", usuario.id)
     .maybeSingle();

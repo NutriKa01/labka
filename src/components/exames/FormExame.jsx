@@ -5,7 +5,9 @@ import { useRouter } from "next/navigation";
 import Button from "../ui/Button";
 import Input from "../ui/Input";
 import Alert from "../ui/Alert";
+import Badge from "../ui/Badge";
 import Card, { CardTitle } from "../ui/Card";
+import UploadArquivoExame from "./UploadArquivoExame";
 
 /**
  * `categorias` vem de `listarCategoriasComMarcadores()`: cada
@@ -18,11 +20,61 @@ export default function FormExame({ pacienteId, categorias }) {
   const [dataExame, setDataExame] = useState("");
   const [pesoKg, setPesoKg] = useState("");
   const [valores, setValores] = useState({});
+  const [confiancaPorMarcador, setConfiancaPorMarcador] = useState({});
+  const [arquivo, setArquivo] = useState(null);
+  const [analisando, setAnalisando] = useState(false);
   const [erro, setErro] = useState(null);
   const [enviando, setEnviando] = useState(false);
 
   function alterarValor(marcadorId, valor) {
     setValores((atual) => ({ ...atual, [marcadorId]: valor }));
+    setConfiancaPorMarcador((atual) => {
+      if (!(marcadorId in atual)) return atual;
+      const { [marcadorId]: _removido, ...resto } = atual;
+      return resto;
+    });
+  }
+
+  async function aoSelecionarArquivo(file) {
+    setArquivo(file);
+    setErro(null);
+
+    if (!file) {
+      setConfiancaPorMarcador({});
+      return;
+    }
+
+    setAnalisando(true);
+    try {
+      const formData = new FormData();
+      formData.append("arquivo", file);
+
+      const resposta = await fetch("/api/exames/extrair", {
+        method: "POST",
+        body: formData,
+      });
+      const dados = await resposta.json();
+
+      if (!dados.ok) {
+        setErro(dados.erro || "Não consegui analisar o arquivo.");
+        return;
+      }
+
+      const novaConfianca = {};
+      setValores((atual) => {
+        const atualizado = { ...atual };
+        for (const item of dados.resultado) {
+          atualizado[item.marcador_id] = String(item.valor);
+          novaConfianca[item.marcador_id] = item.confianca;
+        }
+        return atualizado;
+      });
+      setConfiancaPorMarcador(novaConfianca);
+    } catch {
+      setErro("Não consegui falar com o servidor pra analisar o arquivo.");
+    } finally {
+      setAnalisando(false);
+    }
   }
 
   async function enviar(evento) {
@@ -36,18 +88,21 @@ export default function FormExame({ pacienteId, categorias }) {
 
     setEnviando(true);
     try {
+      const formData = new FormData();
+      formData.append("pacienteId", pacienteId);
+      formData.append("dataExame", dataExame);
+      formData.append("pesoKg", pesoKg || "");
+      formData.append(
+        "valores",
+        JSON.stringify(
+          Object.entries(valores).map(([marcador_id, valor]) => ({ marcador_id, valor }))
+        )
+      );
+      if (arquivo) formData.append("arquivo", arquivo);
+
       const resposta = await fetch("/api/exames", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          pacienteId,
-          dataExame,
-          pesoKg: pesoKg ? Number(pesoKg) : null,
-          valores: Object.entries(valores).map(([marcador_id, valor]) => ({
-            marcador_id,
-            valor,
-          })),
-        }),
+        body: formData,
       });
       const dados = await resposta.json();
 
@@ -72,6 +127,16 @@ export default function FormExame({ pacienteId, categorias }) {
           {erro}
         </Alert>
       )}
+
+      <div className="flex flex-col gap-2">
+        <span className="text-sm font-medium text-ink">Laudo do exame (opcional)</span>
+        <UploadArquivoExame
+          arquivo={arquivo}
+          onArquivoSelecionado={aoSelecionarArquivo}
+          disabled={analisando}
+        />
+        {analisando && <p className="text-xs text-dim">Analisando arquivo…</p>}
+      </div>
 
       <div className="grid grid-cols-2 gap-4">
         <Input
@@ -98,7 +163,16 @@ export default function FormExame({ pacienteId, categorias }) {
             {categoria.marcadores.map((marcador) => (
               <Input
                 key={marcador.id}
-                label={marcador.nome}
+                label={
+                  <span className="inline-flex items-center gap-2">
+                    {marcador.nome}
+                    {confiancaPorMarcador[marcador.id] && (
+                      <Badge tone={confiancaPorMarcador[marcador.id] === "alta" ? "good" : "warn"}>
+                        {confiancaPorMarcador[marcador.id] === "alta" ? "Alta confiança" : "Revisar"}
+                      </Badge>
+                    )}
+                  </span>
+                }
                 type="number"
                 numeric
                 suffix={marcador.unidade || undefined}

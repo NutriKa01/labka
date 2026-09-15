@@ -10,6 +10,7 @@ import ScoreGeral from "../../../../components/painel/ScoreGeral";
 import GraficoEvolucao from "../../../../components/painel/GraficoEvolucao";
 import MatrizMarcadores from "../../../../components/exames/MatrizMarcadores";
 import SugestaoConduta from "../../../../components/painel/SugestaoConduta";
+import CardSuplementacao from "../../../../components/painel/CardSuplementacao";
 
 function idade(dataNascimento) {
   const nascimento = new Date(dataNascimento);
@@ -85,6 +86,7 @@ export default async function PainelPacientePage({ params }) {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <ScoreGeral score={scoreAtual} />
             <SugestaoConduta exameId={ultimoExame.id} />
+            <CardSuplementacao pacienteId={id} exameId={ultimoExame.id} />
           </div>
 
           <GraficoEvolucao pontos={pontos} />

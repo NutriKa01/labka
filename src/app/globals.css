@@ -102,3 +102,25 @@ body {
   text-decoration: underline;
   text-underline-offset: 2px;
 }
+
+@media print {
+  /*
+   * A área logada aplica o tema da conta via `style` inline num wrapper
+   * (ver tema.js/layout.js) — especificidade de inline style só perde
+   * pra !important, daí precisa aqui pra garantir PDF sempre claro,
+   * independente da cor escolhida pela conta.
+   */
+  :root,
+  [style] {
+    --color-ground: #ffffff !important;
+    --color-surface: #ffffff !important;
+    --color-ink: #1a1a1a !important;
+    --color-dim: #4a4a4a !important;
+    --color-line: #d8d3cc !important;
+    --color-line-strong: #b8b1a8 !important;
+  }
+
+  main {
+    width: 100% !important;
+  }
+}

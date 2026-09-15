@@ -23,7 +23,7 @@ export default function Sidebar({ email }) {
   }
 
   return (
-    <aside className="w-60 shrink-0 bg-sidebar text-sidebar-ink flex flex-col">
+    <aside className="print:hidden w-60 shrink-0 bg-sidebar text-sidebar-ink flex flex-col">
       <div className="px-6 py-7 border-b border-sidebar-line">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img

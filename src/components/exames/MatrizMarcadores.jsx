@@ -1,8 +1,22 @@
+"use client";
+
+import { FileText } from "@phosphor-icons/react";
 import Card, { CardLabel } from "../ui/Card";
 import Badge from "../ui/Badge";
 import { statusValor } from "../../lib/score";
+import { criarClienteNavegador } from "../../lib/supabase/client";
 
 const TOM_ROTULO = { good: "Ok", bad: "Atenção", default: "—" };
+
+async function abrirArquivoOriginal(caminho) {
+  const supabase = criarClienteNavegador();
+  const { data, error } = await supabase.storage
+    .from("exames-arquivos")
+    .createSignedUrl(caminho, 60);
+
+  if (error || !data?.signedUrl) return;
+  window.open(data.signedUrl, "_blank", "noopener,noreferrer");
+}
 
 /**
  * Marcador × data. `exames` já vem ordenado por data ascendente;
@@ -29,11 +43,26 @@ export default function MatrizMarcadores({ exames, marcadores }) {
         <thead>
           <tr className="border-t border-line text-left text-dim text-xs">
             <th className="px-5 sm:px-6 py-3 font-medium">Marcador</th>
-            {exames.map((exame) => (
-              <th key={exame.id} className="px-3 py-3 font-medium whitespace-nowrap">
-                {exame.data_exame}
-              </th>
-            ))}
+            {exames.map((exame) => {
+              const arquivo = exame.exame_arquivos?.[0];
+              return (
+                <th key={exame.id} className="px-3 py-3 font-medium whitespace-nowrap">
+                  <div className="flex flex-col gap-1">
+                    <span>{exame.data_exame}</span>
+                    {arquivo && (
+                      <button
+                        type="button"
+                        onClick={() => abrirArquivoOriginal(arquivo.caminho)}
+                        className="inline-flex items-center gap-1 text-accent font-normal normal-case hover:underline"
+                      >
+                        <FileText size={12} aria-hidden="true" />
+                        Ver arquivo original
+                      </button>
+                    )}
+                  </div>
+                </th>
+              );
+            })}
           </tr>
         </thead>
         <tbody>

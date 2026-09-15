@@ -33,10 +33,14 @@ export async function buscarPaciente(id) {
 export async function criarPaciente(dados) {
   const supabase = await criarClienteServidor();
 
+  const { data: contaId, error: erroConta } = await supabase.rpc("auth_conta_id");
+  if (erroConta) return { ok: false, erro: erroConta.message };
+
   const { data, error } = await supabase
     .from("pacientes")
     .insert({
       nome: dados.nome.trim(),
+      conta_id: contaId,
       sexo: dados.sexo,
       data_nascimento: dados.data_nascimento,
       altura: dados.altura || null,

@@ -9,7 +9,9 @@ export async function listarExamesDoPaciente(pacienteId) {
 
   const { data, error } = await supabase
     .from("exames")
-    .select("id, data_exame, peso_kg, exame_valores(marcador_id, valor)")
+    .select(
+      "id, data_exame, peso_kg, exame_valores(marcador_id, valor), exame_arquivos(id, caminho, nome_original)"
+    )
     .eq("paciente_id", pacienteId)
     .order("data_exame", { ascending: true });
 
@@ -36,13 +38,17 @@ export async function buscarExame(id) {
  * se o segundo falhar, o exame fica sem valores e é visível na tela
  * (não há como um exame "meio salvo" enganar a leitura do score).
  */
-export async function criarExameComValores({ pacienteId, dataExame, pesoKg, valores }) {
+export async function criarExameComValores({ pacienteId, dataExame, pesoKg, valores, arquivo }) {
   const supabase = await criarClienteServidor();
+
+  const { data: contaId, error: erroConta } = await supabase.rpc("auth_conta_id");
+  if (erroConta) return { ok: false, erro: erroConta.message };
 
   const { data: exame, error: erroExame } = await supabase
     .from("exames")
     .insert({
       paciente_id: pacienteId,
+      conta_id: contaId,
       data_exame: dataExame,
       peso_kg: pesoKg || null,
     })
@@ -66,5 +72,25 @@ export async function criarExameComValores({ pacienteId, dataExame, pesoKg, valo
   const { error: erroValores } = await supabase.from("exame_valores").insert(linhas);
 
   if (erroValores) return { ok: false, erro: erroValores.message };
+
+  if (arquivo) {
+    const caminho = `${contaId}/${exame.id}/${arquivo.nome}`;
+
+    const { error: erroUpload } = await supabase.storage
+      .from("exames-arquivos")
+      .upload(caminho, arquivo.bytes, { contentType: arquivo.tipoMime, upsert: false });
+
+    if (erroUpload) return { ok: false, erro: erroUpload.message };
+
+    const { error: erroArquivo } = await supabase.from("exame_arquivos").insert({
+      exame_id: exame.id,
+      caminho,
+      nome_original: arquivo.nome,
+      tipo_mime: arquivo.tipoMime,
+    });
+
+    if (erroArquivo) return { ok: false, erro: erroArquivo.message };
+  }
+
   return { ok: true, resultado: { id: exame.id } };
 }
